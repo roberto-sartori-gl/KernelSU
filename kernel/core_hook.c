@@ -628,8 +628,8 @@ static int ksu_task_prctl(int option, unsigned long arg2, unsigned long arg3,
 	ksu_handle_prctl(option, arg2, arg3, arg4, arg5);
 	return -ENOSYS;
 }
-// kernel 4.4 and 4.9
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0)
+// kernel 4.4, 4.9 and 4.14
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
 static int ksu_key_permission(key_ref_t key_ref, const struct cred *cred,
 			      unsigned perm)
 {
@@ -661,7 +661,7 @@ static struct security_hook_list ksu_hooks[] = {
 	LSM_HOOK_INIT(task_prctl, ksu_task_prctl),
 	LSM_HOOK_INIT(inode_rename, ksu_inode_rename),
 	LSM_HOOK_INIT(task_fix_setuid, ksu_task_fix_setuid),
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0)
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
 	LSM_HOOK_INIT(key_permission, ksu_key_permission)
 #endif
 };
